@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Docker MySQL Todo Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<style>
+    .selector-for-some-widget {
+        box-sizing: content-box;
+    }
+</style>
+<body style="padding-top:50px;">
+<!-- Nav Bar -->
+
+<div class="navbar navbar-light bg-primary">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">TODO Tasks & Status </a>
+        </div>
+    </div>
+</div>
+
+<!-- Body -->
+<div class="container">
+    <h3>My Todo Status</h3>
+
+    <hr/>
+    <div class = "todoList">
+        <form class="form-horizontal" role="form" th:action="@{/update}" th:object="${todos}" method="POST">
+            <table class="table table-bordered table-striped" id="todoItems">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item,i : *{todoList}" th:class="${item.status}? active : warning" >
+                    <input type="hidden" th:field="*{todoList[__${i.index}__].id}"/>
+                    <td th:text="${item.name}">Item_name</td><input type="hidden" th:field="*{todoList[__${i.index}__].name}"/>
+                    <td th:text="${item.category}">item_category</td><input type="hidden" th:field="*{todoList[__${i.index}__].category}"/>
+                    <td><input type="checkbox" th:checked="${item.status} == true" th:field="*{todoList[__${i.index}__].status}"/></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Update Button -->
+            <button type="submit" class="btn btn-primary">Update Tasks</button>
+        </form>
+    </div>
+
+    <hr/>
+    <h3> Add New Task to Todo list</h3>
+    <!-- Item Input Form -->
+    <div class="todoForm">
+        <form class="form-horizontal" role="form" th:action="@{/add}" th:object="${newTodo}" method="POST">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label for="inputItemName" class="col-sm-2">Task Name : </label>
+                    <input type="text" th:field="*{name}" class="form-control" id="inputItemName" placeholder="Enter name"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label for="inputItemCategory" class="col-sm-2">Task Category : </label>
+                    <input type="text" th:field="*{category}" class="form-control" id="inputItemCategory" placeholder="Enter category"/>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Task</button>
+
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
