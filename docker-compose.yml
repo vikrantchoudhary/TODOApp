@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+  todo-service:
+    image: vikrantkc/todo_springboot_docker:latest
+    ports:
+    - 8080:8080
+    depends_on:
+      - demoDB
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://demoDB:3306/TODODemo?seSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=todoUser
+      - SPRING_DATASOURCE_PASSWORD=todoPassword
+  demoDB:
+    image: mysql:latest
+    volumes:
+    - ./mysql_data:/var/lib/mysql
+    ports:
+    - 3360:3360
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=todoPassword
+      - MYSQL_DATABASE=TODODemo
+      - MYSQL_USER=todoUser
+      - MYSQL_PASSWORD=todoPassword
