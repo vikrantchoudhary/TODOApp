@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: todo-service
+  name: todo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: todo-service
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 ()
+      creationTimestamp: null
+      labels:
+        io.kompose.service: todo-service
+    spec:
+      containers:
+      - env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: todoPassword
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://demoDB:3306/TODODemo?seSSL=false&allowPublicKeyRetrieval=true
+        - name: SPRING_DATASOURCE_USERNAME
+          value: todoUser
+        image: vikrantkc/todo_springboot_docker:latest
+        imagePullPolicy: ""
+        name: todo-service
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
