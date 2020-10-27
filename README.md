@@ -26,8 +26,7 @@ Deploying using kubernetes : (using minikube locally)
 
 
 Step 1 : creating deployment and service yaml files using kompose
-> kompose convert
-
+> kompose convert \
 INFO Service name in docker-compose has been changed from "demoDB" to "demodb" \
 INFO Kubernetes file "demodb-service.yaml" created \
 INFO Kubernetes file "todo-service-service.yaml" created \
@@ -37,9 +36,8 @@ INFO Kubernetes file "todo-service-deployment.yaml" created
 
 
 
-Step2 : applying it 
-> kubectl apply -f k8s/
-
+Step2 : applying it  
+> kubectl apply -f k8s/ \
 persistentvolumeclaim/demodb-claim0 created \
 deployment.apps/demodb created \
 service/demodb created\
@@ -47,30 +45,24 @@ deployment.apps/todo-service created \
 service/todo-service created
 
 Step3 : verify all of them are running
-> kubectl get all
-
+> kubectl get all \
 NAME                                READY   STATUS    RESTARTS   AGE \
 pod/demodb-6b758cb48f-4q9k7         1/1     Running   0          5m37s \
 pod/todo-service-54d5556b7f-w8jtz   1/1     Running   3          5m37s \
-
-
-NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE \
 service/demodb         ClusterIP   10.103.13.131    <none>        3360/TCP   5m37s \
 service/kubernetes     ClusterIP   10.96.0.1        <none>        443/TCP    5h55m \
 service/todo-service   ClusterIP   10.110.155.220   <none>        8080/TCP   5m37s \
-
-
-NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE \
 deployment.apps/demodb         1/1     1            1           5m37s \
 deployment.apps/todo-service   1/1     1            1           5m37s \
-
-NAME                                      DESIRED   CURRENT   READY   AGE
+NAME                                      DESIRED   CURRENT   READY   AGE \
 replicaset.apps/demodb-6b758cb48f         1         1         1       5m37s \
 replicaset.apps/todo-service-54d5556b7f   1         1         1       5m37s \
 
 
 Step4: port forwading
-> kubectl port-forward svc/todo-service  8080:8080 
+> kubectl port-forward svc/todo-service  8080:8080 \
 Forwarding from 127.0.0.1:8080 -> 8080 \
 Forwarding from [::1]:8080 -> 8080 \
 Handling connection for 8080 \
